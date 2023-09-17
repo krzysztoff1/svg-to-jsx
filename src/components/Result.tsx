@@ -1,16 +1,25 @@
 import { useAtomValue } from "jotai";
-import { Textarea } from "./ui/textarea";
 import { outputAtom } from "@/atoms/editor";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 export function Result() {
   const output = useAtomValue(outputAtom);
 
   return (
     <section className="w-full">
-      <Textarea
+      <CodeEditor
         value={output}
-        style={{ minHeight: "calc(100vh - 32rem)" }}
-        readOnly
+        language="js"
+        placeholder="Output"
+        onChange={(evn) => {}}
+        padding={15}
+        style={{
+          fontSize: 12,
+          backgroundColor: "transparent",
+          fontFamily:
+            "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+        }}
+        readOnly={true}
       />
     </section>
   );
