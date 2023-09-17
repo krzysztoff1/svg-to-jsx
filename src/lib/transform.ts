@@ -12,8 +12,7 @@ export function createArrowFunctionComponent({
   componentName = DEFAULT_COMPONENT_NAME,
   jsx,
 }: CreateFunctionString): string {
-  return ` 
-export const ${componentName} = (props) => (
+  return `export const ${componentName} = (props) => (
   ${jsx}
 );
 `;
@@ -23,8 +22,7 @@ export function createFunctionComponent({
   componentName = DEFAULT_COMPONENT_NAME,
   jsx,
 }: CreateFunctionString): string {
-  return `
-export function ${componentName}(props) {
+  return `export function ${componentName}(props) {
   return ${jsx}
 }
 `;
@@ -34,8 +32,7 @@ export function createArrowFunctionMemoComponent({
   componentName = DEFAULT_COMPONENT_NAME,
   jsx,
 }: CreateFunctionString): string {
-  return `
-import { memo } from "react";
+  return `import { memo } from "react";
 
 export const ${componentName} = memo((props) => (
   ${jsx}
@@ -43,11 +40,17 @@ export const ${componentName} = memo((props) => (
 `;
 }
 
-type TransformerOptions = {
+export type TransformerComponentType =
+  | "arrowFunction"
+  | "function"
+  | "arrowFunctionMemo";
+
+export type TransformerOptions = {
   readonly componentName?: string;
-  readonly addRoleImg?: boolean;
-  readonly addAriaHidden?: boolean;
-  readonly componentType?: "arrowFunction" | "function" | "arrowFunctionMemo";
+  readonly replaceFillWithCurrentColor?: boolean;
+  readonly replaceStrokeWithCurrentColor?: boolean;
+  readonly componentType?: TransformerComponentType;
+  readonly transformToJsx?: boolean;
 };
 
 interface TransformSvgToJsxProps {
@@ -68,6 +71,24 @@ export function transformSvgToJsx({
     optimizedSvgString = result.data;
   } catch (e) {
     console.warn("Failed to optimize SVG", e);
+  }
+
+  if (options.replaceFillWithCurrentColor) {
+    optimizedSvgString = optimizedSvgString.replaceAll(
+      /fill="[^"]*"/g,
+      'fill="currentColor"'
+    );
+  }
+
+  if (options.replaceStrokeWithCurrentColor) {
+    optimizedSvgString = optimizedSvgString.replaceAll(
+      /stroke="[^"]*"/g,
+      'stroke="currentColor"'
+    );
+  }
+
+  if (!options.transformToJsx) {
+    return optimizedSvgString;
   }
 
   const jsx = optimizedSvgString.replace("class=", "className=");

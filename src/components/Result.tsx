@@ -7,7 +7,11 @@ export function Result() {
 
   return (
     <section className="w-full">
-      <Textarea value={output} readOnly />
+      <Textarea
+        value={output}
+        style={{ minHeight: "calc(100vh - 32rem)" }}
+        readOnly
+      />
     </section>
   );
 }
