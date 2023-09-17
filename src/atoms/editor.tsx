@@ -17,7 +17,20 @@ export const inputAtom = atom(
   }
 );
 
-const _outputAtom = atom(transformSvgToJsx({ input: DEFAULT_INPUT }));
+const retrievePreviousTransformerOptions = () => {
+  const previousTransformerOptions = localStorage.getItem("transformerOptions");
+  if (previousTransformerOptions) {
+    return JSON.parse(previousTransformerOptions);
+  }
+  return {};
+};
+
+const _outputAtom = atom(
+  transformSvgToJsx({
+    input: DEFAULT_INPUT,
+    options: retrievePreviousTransformerOptions(),
+  })
+);
 
 export const outputAtom = atom(
   (get) => get(_outputAtom),
