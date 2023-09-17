@@ -12,20 +12,18 @@ export function createArrowFunctionComponent({
   componentName = DEFAULT_COMPONENT_NAME,
   jsx,
 }: CreateFunctionString): string {
-  return `export const ${componentName} = (props) => (
+  return `export const ${componentName} = () => (
   ${jsx}
-);
-`;
+);`;
 }
 
 export function createFunctionComponent({
   componentName = DEFAULT_COMPONENT_NAME,
   jsx,
 }: CreateFunctionString): string {
-  return `export function ${componentName}(props) {
+  return `export function ${componentName}() {
   return ${jsx}
-}
-`;
+}`;
 }
 
 export function createArrowFunctionMemoComponent({
@@ -34,10 +32,9 @@ export function createArrowFunctionMemoComponent({
 }: CreateFunctionString): string {
   return `import { memo } from "react";
 
-export const ${componentName} = memo((props) => (
+export const ${componentName} = memo(() => (
   ${jsx}
-));
-`;
+));`;
 }
 
 export type TransformerComponentType =
