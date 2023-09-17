@@ -22,7 +22,7 @@ export function createFunctionComponent({
   jsx,
 }: CreateFunctionString): string {
   return `export function ${componentName}() {
-  return ${jsx}
+  return (${jsx})
 }`;
 }
 
