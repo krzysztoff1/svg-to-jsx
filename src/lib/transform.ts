@@ -64,6 +64,16 @@ export function transformSvgToJsx({
     const result = optimize(input, {
       path: "icon.svg",
       multipass: true,
+      plugins: [
+        {
+          name: "preset-default",
+          params: {
+            overrides: {
+              removeViewBox: false,
+            },
+          },
+        },
+      ],
     });
     optimizedSvgString = result.data;
   } catch (e) {
